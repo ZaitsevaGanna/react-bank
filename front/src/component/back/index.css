@@ -1,0 +1,9 @@
+.backArrow{
+    width: 20px;
+    height: 20px;
+    background-image: url(./arrow-back.svg);
+   background-repeat:no-repeat
+}
+.backArrow:hover{
+    cursor: pointer;
+}

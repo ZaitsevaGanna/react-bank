@@ -1,0 +1,40 @@
+.field{
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+    font-weight: 400;
+   
+}
+
+ .field_label{
+    font-size: 14px;
+    color:#1D1D1F;
+     }
+
+    .field_input{
+        border: 1px solid#E9E8EB;
+     
+
+        padding: 16px 16px;
+        border-radius: 12px;
+
+        font-size: 14px;
+       color:#1D1D1F;
+     
+}
+.white{
+    background-color: white;
+}
+
+      .field::placeholder{
+            color:#E9E8EB
+        }
+
+       
+     .field_input:hover{
+            border-color:#775CE5;
+        }
+
+
+      
+     
