@@ -1,0 +1,18 @@
+.alarm_block{
+  width: 100%;
+padding: 16px;
+
+border-radius: 10px;
+  background-color:rgba(242, 136, 61, 0.1) ;
+  color:rgb(242, 136, 61) ;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+.stop {
+ background-image: url(./Vector.png);
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin-right: 10px;
+}

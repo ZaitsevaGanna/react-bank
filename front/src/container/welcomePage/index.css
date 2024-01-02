@@ -1,0 +1,33 @@
+.welcomePage{
+     max-width: 390px;
+    height:800px;
+       margin: 0 auto;
+     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 24px;
+    font-weight: 600;
+       justify-content: space-between;
+    background-image:url(./kerfin.png), url(./backHello.png);
+    background-repeat: no-repeat, no-repeat;
+    background-position:50% 30%,top
+    }
+    
+.descrіption{
+    font-size: 20px;
+    color:white;
+    text-align: center;
+    line-height: 20px;
+       font-weight: 400;
+}
+.hello{
+    font-size: 42px;
+    font-weight: 600px;
+    color: white;
+        text-align: center;
+        margin-top: 95px;
+        margin-bottom: 20px;
+}

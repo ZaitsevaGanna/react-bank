@@ -1,0 +1,20 @@
+.field_link{
+text-align: center;
+margin-bottom: 20px;
+display: flex;
+flex-direction: row;
+gap: 10px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.text{
+  
+    color:#121212;
+   
+}
+.textLink{
+text-decoration: underline;
+    color:#775CE5
+
+}
