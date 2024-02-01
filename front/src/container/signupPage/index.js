@@ -18,7 +18,7 @@ export default function SignupPage() {
 
     try {
       // Отправка данных на сервер
-      const response = await fetch("http://localhost:4000/myusers", {
+      const response = await fetch("http://localhost:4000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,9 +31,13 @@ export default function SignupPage() {
       console.log("Отправлено:", { email, password });
 
       switch (response.status) {
-        case 201:
+        case 200:
+          const data = await response.json();
+
+          // В переменной data теперь содержатся данные из тела ответа
+
           console.log("Пользователь создан");
-          window.location.assign("/signup-confirm");
+          window.location.assign(`/signup-confirm?id=${data.id}`);
           break;
         case 400:
           console.log("Неправильно ввели данные");
@@ -49,14 +53,6 @@ export default function SignupPage() {
           console.log("Неопрацьований статус", response.status);
           break;
       }
-
-      // if (response.ok) {
-      //   //window.location.assign("/balance");
-      //   console.log("Отправлено:", { email, password });
-      //   console.log("Данные успешно отправлены на сервер!");
-      // } else {
-      //   console.error("Неправильно ввели данные");
-      // }
     } catch (error) {
       console.error("Произошла ошибка на клиенте", error);
     }
@@ -99,7 +95,9 @@ export default function SignupPage() {
           textLink="Sing In"
         />
         <Button text="Continue" href="/signup-confirm" onClick={handleSubmit} />
-        {isFirstComponentVisible ? <AlarmBlock /> : null}
+        {isFirstComponentVisible ? (
+          <AlarmBlock text="A user with the same name is already exist" />
+        ) : null}
       </div>
     </Page>
   );

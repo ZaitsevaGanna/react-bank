@@ -1,0 +1,33 @@
+.geometry{
+    width: 25px;
+    height: 25px;
+    background-repeat: no-repeat;
+}
+.first{
+       background-image: url(1.png);
+}
+.second{
+       background-image: url(2.png);
+}
+.third{
+       background-image: url(3.png);
+}
+.fought{
+       background-image: url(4.png);
+}
+.fifth{
+       background-image: url(5.png);
+}
+.sixth{
+       background-image: url(6.png);
+}
+.iconRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 15px 0;
+
+}
+.text{
+padding: 15px;
+}

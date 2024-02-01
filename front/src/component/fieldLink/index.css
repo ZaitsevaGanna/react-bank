@@ -15,6 +15,7 @@ gap: 10px;
 }
 .textLink{
 text-decoration: underline;
-    color:#775CE5
+    color:#775CE5;
+    padding: 15px;
 
 }
