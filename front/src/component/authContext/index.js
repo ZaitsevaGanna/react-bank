@@ -1,8 +1,8 @@
-import React, { createContext, useReducer, useContext } from "react";
-// Початковий стан
+import { createContext, useReducer, useContext } from "react";
+//Початковий стан
 
 const initialState = {
-  user: null,
+  user: { id: undefined },
   isAuthenticated: false,
   token: null,
 };
@@ -12,13 +12,11 @@ const LOGOUT = "LOGOUT";
 
 const AuthContext = createContext();
 
-// Редуктор
+//Редуктор
 
-const reduser = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case LOGIN:
-      window.location.assign(`/balance?&id=${action.payload.user.id}`);
-      console.log("enter");
       return {
         ...state,
         isAuthenticated: true,
@@ -27,12 +25,10 @@ const reduser = (state, action) => {
       };
 
     case LOGOUT:
-      window.location.assign("/signin");
-      console.log("Exit");
       return {
         ...state,
         isAuthenticated: false,
-        token: action.payload.token,
+        token: null,
         user: null,
       };
     default:
@@ -41,7 +37,7 @@ const reduser = (state, action) => {
 };
 
 export default function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(reduser, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
@@ -49,7 +45,7 @@ export default function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-// Створення контексту
+//Створення контексту
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

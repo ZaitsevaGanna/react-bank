@@ -1,0 +1,12 @@
+.alarmBlock{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    height: 40px;
+}
+.title_field{
+       white-space: nowrap;
+}
+.smallerHight{
+    height: 50px;
+}

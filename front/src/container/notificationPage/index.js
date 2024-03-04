@@ -3,51 +3,27 @@ import BackArrow from "../../component/back";
 import PageGray from "../../pageGray";
 import Header from "../../component/header";
 import WhiteBox from "../../component/whiteBox";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function NotificationsPage() {
-  // const { id, password, email } = useContext();
+  const [data, setData] = useState([]);
 
-  const list = [
-    {
-      id: 1,
-      userId: 2,
-      date: "2024-01-22T20:27:34.948Z",
-      type: 0,
-      message: "New login",
-    },
+  const urlParams = new URLSearchParams(useLocation().search);
+  const userId = urlParams.get("id");
 
-    {
-      id: 2,
-      userId: 2,
-      date: "2024-01-22T20:29:54.633Z",
-      type: 1,
-      message: "You send 200 USD",
-    },
+  useEffect(() => {
+    fetch(`http://localhost:4000/notifications?id=${userId}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Нотификации", data);
+        setData(data);
+      });
+  }, []);
 
-    {
-      id: 3,
-      userId: 3,
-      date: "2024-01-22T20:32:31.300Z",
-      type: 2,
-      message: "New reward system 300 USD.",
-    },
-    {
-      id: 4,
-      userId: 3,
-      date: "2024-01-22T20:32:31.300Z",
-      type: 3,
-      message: "New reward system 40 USD.",
-    },
-    {
-      id: 5,
-      userId: 3,
-      date: "2024-01-22T20:32:31.300Z",
-      type: 4,
-      message: "Your friend send you 10 USD.",
-    },
-  ];
-
-  const notifications = list.map((item) => (
+  const notifications = data.map((item) => (
     <li key={item.id}>
       <WhiteBox>
         <div className={`notif_type notif_type${item.type}`}></div>
