@@ -1,9 +1,10 @@
 import "./index.css";
 
-export default function AlarmBlock() {
+export default function AlarmBlock({ text }) {
   return (
     <div className="alarm_block">
-      <div className="stop"></div>A user with the same name is already exist
+      <div className="stop"></div>
+      <div>{text}</div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import React ,{createContext} from "react";
 
+import AuthProvider from "./component/authContext";
 import WelcomePage from "./container/welcomePage";
 import SignupPage from "./container/signupPage";
 import SigninPage from "./container/signinPage";
@@ -12,28 +12,31 @@ import NotificationsPage from "./container/notificationPage";
 import SendPage from "./container/sendPage";
 import ReceivePage from "./container/receivePage";
 import TransactionPage from "./container/transactionPage";
+import React from "react";
+
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { create } from "domain";
+
 
 
 
 
 function App() {
 
- 
-  
-  const authContextData = {
-    id:1,
-    password: 2,
-    email:3
-    
-  }
 
-   const AuthContext = React.createContext(authContextData)
+  
+  // const authContextData = {
+  //    user:null,
+  //   isAuthenticated: false,
+  //      accessToken:null
+    
+  // }
+
+  //  const AuthContext = React.createContext(authContextData)
   
   return (
-    <AuthContext.Provider value = { authContextData } >
+     <AuthProvider  >
+       {/* <AuthContext.Provider value={authContextData } > */}
     <BrowserRouter>
      <Routes>
         <Route index element={<WelcomePage />} />
@@ -51,7 +54,7 @@ function App() {
           
       </Routes>
     </BrowserRouter>
-    </AuthContext.Provider >
+    </AuthProvider >
     )
 }
 

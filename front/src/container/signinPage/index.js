@@ -6,51 +6,72 @@ import Header from "../../component/header";
 import Field from "../../component/field";
 import FieldPass from "../../component/fieldPass";
 import FieldLink from "../../component/fieldLink";
+import AlarmBlock from "../../component/alarmBlock";
+import { useAuth } from "../../component/authContext";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function SigninPage() {
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const { dispatch } = useAuth();
+  const [isFirstComponentVisible, setFirstComponentVisible] = useState(false);
 
-  //   try {
-  //     // Отправка данных на сервер
-  //     const response = await fetch("http://localhost:4000/myusers", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
+  const handleSubmit = async (e) => {
+    setFirstComponentVisible(false);
 
-  //     console.log("SigninPage response: ", response);
+    e.preventDefault();
+    if (email && password) {
+      try {
+        // Отправка данных на сервер
 
-  //     if (response.ok) {
-  //       window.location.assign("/balance");
-  //       console.log("Отправлено:", { email, password });
-  //       console.log("Данные успешно отправлены на сервер!");
-  //     } else {
-  //       console.error("Ошибка при отправке данных на сервер");
-  //     }
-  //   } catch (error) {
-  //     console.error("Произошла ошибка:", error);
-  //   }
-  // };
+        const response = await fetch("http://localhost:4000/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
 
-  // // Ваша логика обработки формы
+        const data = await response.json();
 
-  // const [email, setUseremail] = useState("");
+        if (response.status === 400 || response.status === 500) {
+          setFirstComponentVisible(true);
+        } else if (response.status === 200) {
+          //window.location.assign("/balance");
 
-  // const [password, setPassword] = useState("");
+          console.log("В signin", data.token, data.user);
 
-  // const handleUserEmailChange = (event) => {
-  //   setUseremail(event.target.value);
-  // };
+          return dispatch({
+            type: "LOGIN",
+            payload: {
+              token: data.token,
+              user: data.user,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Произошла ошибка:", error);
+      }
+    } else {
+      setFirstComponentVisible(true);
+    }
+  };
 
-  // const handlePasswordChange = (event) => {
-  //   setPassword(event.target.value);
-  // };
-  // console.log({ password, email });
+  // логика обработки формы
+
+  const [email, setUseremail] = useState("");
+
+  const [password, setPassword] = useState("");
+
+  const handleUserEmailChange = (event) => {
+    setFirstComponentVisible(false);
+    setUseremail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setFirstComponentVisible(false);
+    setPassword(event.target.value);
+  };
+  console.log({ password, email });
   return (
     <Page>
       <div className="signinPage">
@@ -60,12 +81,12 @@ export default function SigninPage() {
           name="Email"
           type="text"
           placeholder="введіть Вашу електронну  адресу"
-          // action={handleUserEmailChange}
+          action={handleUserEmailChange}
         />
         <FieldPass
           name="Password"
           placeholder="введіть Ваш пароль"
-          // action={handlePasswordChange}
+          action={handlePasswordChange}
         />
 
         <FieldLink
@@ -73,11 +94,10 @@ export default function SigninPage() {
           text="Forgot your password?"
           textLink="Restore"
         />
-        <Button
-          text="Continue"
-          href="/balance"
-          // onClick={handleSubmit}
-        />
+        <Button text="Continue" href="/balance" onClick={handleSubmit} />
+        {isFirstComponentVisible ? (
+          <AlarmBlock text="Wrong email or password" />
+        ) : null}
       </div>
     </Page>
   );

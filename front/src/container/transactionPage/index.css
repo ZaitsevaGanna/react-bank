@@ -1,0 +1,29 @@
+
+
+
+.column{
+  
+  
+ display: flex;
+    flex-direction: column;
+  justify-content:start;
+    gap: 16px;
+    margin: 20px 0 20px 0 ;
+    background-color: white;
+    padding: 16px;
+    border-radius: 12px; 
+ }
+ .sum{
+    font-size:34px;
+    color:#24B277;
+    text-align: center;
+    line-height: 20px;
+       font-weight: 600;
+}
+.info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 400;
+    font-size: 14px;
+}

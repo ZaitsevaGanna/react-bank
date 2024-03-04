@@ -8,6 +8,7 @@ class User {
     this.email = String(email).toLowerCase()
     this.password = String(password)
     this.isConfirm = false
+    User.regenerateCode(this)
   }
 
   static create(data) {
@@ -40,6 +41,10 @@ class User {
 
   static isExists(email) {
     return this.getByEmail(email) !== null
+  }
+
+  static regenerateCode(user) {
+    user.code = Math.floor(Math.random() * 10000 + 1000)
   }
 }
 

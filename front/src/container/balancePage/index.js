@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { Link } from "react-router-dom";
 
 export default function BalancePage() {
-  // const { id, password, email } = useContext();
+  //const { id, password, email } = useContext();
 
   const list = [
     {
@@ -12,30 +12,26 @@ export default function BalancePage() {
       name: "Stripe",
       price: 320,
       type: "send",
-      link: "/transaction/",
     },
     {
       id: 2,
       name: "Coinbase",
       price: 100,
       type: "receive",
-      link: "/transaction",
     },
-    { id: 3, name: "Oleg", price: 250, type: "send", link: "/transaction" },
-    { id: 4, name: "Helen", price: 117, type: "receive", link: "/transaction" },
+    { id: 3, name: "Oleg", price: 250, type: "send" },
+    { id: 4, name: "Helen", price: 117, type: "receive" },
   ];
 
-  const handleClick = (link) => {
-    window.location.assign(link);
-  };
+  // const handleClick = () => {
+
+  // };
 
   const payments = list.map((item) => (
     <li
       className="payment"
       key={item.id}
-      onClick={() => {
-        handleClick(item.link);
-      }}
+      onClick={() => window.location.assign(`/transaction`)}
     >
       <div className="doubleDiv">
         <div className="paymentImg"></div>
