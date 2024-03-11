@@ -108,7 +108,9 @@ export default function SendPage() {
       {isFirstComponentVisible ? (
         <AlarmBlock text="A user with this email is not registered" />
       ) : null}
-      {isFirstComponentVisible1 ? <AlarmBlock text="Гроші переведені" /> : null}
+      {isFirstComponentVisible1 ? (
+        <AlarmBlock text="Гроші переведені!" green />
+      ) : null}
       {isFirstComponentVisible2 ? (
         <AlarmBlock text="Не вірно введена сума" />
       ) : null}

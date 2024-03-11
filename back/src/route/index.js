@@ -1,12 +1,11 @@
-// Підключаємо роутер до бек-енду
-//const fs = require('fs').promises
-//const path = require('path')
-
 const jwt = require('jsonwebtoken')
 
 const express = require('express')
 const cors = require('cors')
 const router = express.Router()
+
+const cookieParser = require('cookie-parser')
+const app = express()
 
 const { User } = require('../class/user')
 const { Notification } = require('../class/notification')
@@ -17,15 +16,14 @@ const {
 } = require('../class/transaction')
 
 router.use(cors())
-//const { UserSession } = require('../class/userSession')
-
-//const storageFolderPath = '../temp'
+router.use(express.json())
+app.use(cookieParser())
 
 const idEmailMap = new Map()
 
 const secretKey = process.env.JWT_SECRET
 
-Notification.fillFakeNotifications()
+//Notification.fillFakeNotifications()
 
 const authenticateToken = (req, res, next) => {
   const token = req.header('Authorization')
@@ -69,7 +67,7 @@ router.get('/notifications', (req, res) => {
   res.status(200).json(last7Notif)
 })
 
-// данные пользователей
+// данные пользователей 
 user1 = User.create({
   email: 'test@mail.com',
   password: 123456,
@@ -94,7 +92,72 @@ router.get('/users', (req, res) => {
   res.status(200).json(users)
 })
 
+router.post('/signin', (req, res) => {
+  const { email, password } = req.body
+
+  if (email && password) {
+    try {
+      const usr = User.getByEmail(email)
+
+      if (
+        usr &&
+        usr.password === password &&
+        usr.isConfirm === true
+      ) {
+        console.log(usr)
+        try {
+          const user = {
+            id: usr.id,
+            email: usr.email,
+          }
+
+          // Создание JWT-токена и запись его в куки
+          const token = jwt.sign(user, secretKey)
+
+          console.log('токен', token)
+
+          res.cookie('accessToken', token, {
+            httpOnly: true,
+          })
+
+          console.log('cookie', res.cookie)
+
+          res.json({
+            message: 'Куки успешно установлены',
+            token,
+            user,
+          })
+
+          Notification.createLogin(user.id)
+        } catch (error) {
+          console.error('Error creating token:', error)
+          res
+            .status(500)
+            .json({ error: 'Internal Server Error' })
+        }
+
+        // return res.status(200).json({
+        //   message: 'Всё ОК!',
+        // })
+      } else
+        res.status(400).json({ message: 'Не вірні данні' })
+    } catch (e) {
+      res.status(500).json({
+        message: 'Виникла помилка!',
+        err: JSON.stringify(e),
+      })
+    }
+  } else {
+    res
+      .status(400)
+      .json({ message: 'Не всі данні введені' })
+  }
+})
+
 router.get('/balance', (req, res) => {
+  const cookies = req.cookies
+
+  console.log('>>>>>кукиииии>>>>>', cookies.accessToken)
   const userId = +req.query.id
   try {
     const { balance, last7Trans } =
@@ -140,6 +203,10 @@ router.get(
   '/transaction',
   // authenticateToken,
   (req, res) => {
+    const cookies = req.cookies
+
+    console.log('кукиииии', cookies)
+
     const transId = +req.query.transId
     const transaction = Transaction.getTransById(transId)
 
@@ -265,56 +332,6 @@ router.post('/signup-confirm', (req, res) => {
   } catch (e) {
     console.error('Error creating token:', error)
     res.status(500).json({ error: 'Internal Server Error' })
-  }
-})
-
-router.post('/signin', (req, res) => {
-  const { email, password } = req.body
-
-  if (email && password) {
-    try {
-      const usr = User.getByEmail(email)
-
-      if (
-        usr &&
-        usr.password === password &&
-        usr.isConfirm === true
-      ) {
-        console.log(usr)
-        try {
-          const user = {
-            id: usr.id,
-            email: usr.email,
-          }
-
-          // Создание JWT-токена
-          const token = jwt.sign(user, secretKey)
-
-          res.json({ token, user })
-
-          Notification.createLogin(user.id)
-        } catch (error) {
-          console.error('Error creating token:', error)
-          res
-            .status(500)
-            .json({ error: 'Internal Server Error' })
-        }
-
-        // return res.status(200).json({
-        //   message: 'Всё ОК!',
-        // })
-      } else
-        res.status(400).json({ message: 'Не вірні данні' })
-    } catch (e) {
-      res.status(500).json({
-        message: 'Виникла помилка!',
-        err: JSON.stringify(e),
-      })
-    }
-  } else {
-    res
-      .status(400)
-      .json({ message: 'Не всі данні введені' })
   }
 })
 
@@ -446,5 +463,7 @@ router.post('/send', (req, res) => {
   }
 })
 
+
 // Експортуємо глобальний роутер
+
 module.exports = router

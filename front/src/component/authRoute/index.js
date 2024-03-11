@@ -1,13 +1,27 @@
-import { Navigate, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../authContext";
 
-export default function AuthRoute({ element, ...rest }) {
+// function getCookie(name) {
+//   const value = `; ${document.cookie}`;
+//   const parts = value.split(`; ${name}=`);
+//   if (parts.length === 2) return parts.pop().split(";").shift();
+// }
+
+export default function AuthRoute({ element }) {
   const { state } = useAuth();
   const { token } = state;
 
-  return token ? (
-    <Route {...rest} element={element} />
-  ) : (
-    <Navigate to="/signin" />
-  );
+  // Пример использования: получаем значение токена из куки с именем "token"
+  // const token = getCookie("accessToken");
+  //const cookie = document.cookie;
+
+  console.log("Токен", token);
+
+  // const token = localStorage.getItem("token");
+
+  if (token) {
+    return element;
+  } else {
+    return <Navigate to="/signup" />;
+  }
 }

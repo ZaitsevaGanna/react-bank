@@ -10,8 +10,13 @@ import IconRow from "../../component/iconRow";
 import { PaymentSystem } from "../../emums/paymentSystem";
 import AlarmBlock from "../../component/alarmBlock";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../component/authContext";
 
 export default function ReceivePage() {
+  const { state, dispatch } = useAuth();
+  const { user, token } = state;
+  console.log("В reseive...................", user.id, token);
+
   const urlParams = new URLSearchParams(useLocation().search);
   const userId = urlParams.get("id");
 
@@ -110,7 +115,7 @@ export default function ReceivePage() {
           <IconRow name="Coinbase" />
         </WhiteBox>
       </div>
-      {isFirstComponentVisible ? <AlarmBlock text="Гроші відправлені" /> : null}
+      {isFirstComponentVisible ? <AlarmBlock text="Гроші відправлені!" green /> : null}
       {isFirstComponentVisible1 ? (
         <AlarmBlock text="Не вірно введена сума" />
       ) : null}

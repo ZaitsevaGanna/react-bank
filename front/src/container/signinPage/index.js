@@ -8,13 +8,15 @@ import FieldPass from "../../component/fieldPass";
 import FieldLink from "../../component/fieldLink";
 import AlarmBlock from "../../component/alarmBlock";
 import { useAuth } from "../../component/authContext";
+import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
 export default function SigninPage() {
+  const navigate = useNavigate();
   const { state, dispatch } = useAuth();
   const { user, token } = state;
-  console.log(".........................", user.id, token);
+  console.log("В signin.........................", user.id, token);
 
   const [isFirstComponentVisible, setFirstComponentVisible] = useState(false);
 
@@ -39,7 +41,10 @@ export default function SigninPage() {
         if (response.status === 400 || response.status === 500) {
           setFirstComponentVisible(true);
         } else if (response.status === 200) {
-          console.log("В signin", data.token, data.user);
+          console.log("В signin", data.token, data.user, data.message);
+
+          // localStorage.setItem("token", data.token);
+          // localStorage.setItem("user", data.user.id);
 
           dispatch({
             type: "LOGIN",
@@ -48,8 +53,14 @@ export default function SigninPage() {
               user: data.user,
             },
           });
-          console.log("После установки dispatch", dispatch);
-          window.location.assign(`/balance?id=${data.user.id}`);
+          console.log(
+            "После установки dispatch",
+            dispatch,
+            data.token,
+            data.user
+          );
+
+          navigate(`/balance?id=${data.user.id}`);
         }
       } catch (error) {
         console.error("Произошла ошибка:", error);
@@ -97,7 +108,11 @@ export default function SigninPage() {
           text="Forgot your password?"
           textLink="Restore"
         />
-        <Button text="Continue" href="/balance" onClick={handleSubmit} />
+        <Button
+          text="Continue"
+          href={`/balance?id=${user.id}`}
+          onClick={handleSubmit}
+        />
         {isFirstComponentVisible ? (
           <AlarmBlock text="Wrong email or password" />
         ) : null}
