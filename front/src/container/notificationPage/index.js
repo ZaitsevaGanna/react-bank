@@ -5,8 +5,13 @@ import Header from "../../component/header";
 import WhiteBox from "../../component/whiteBox";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../component/authContext";
 
 export default function NotificationsPage() {
+  const { state, dispatch } = useAuth();
+  const { user, token } = state;
+  console.log("В notification...................", user.id, token);
+
   const [data, setData] = useState([]);
 
   const urlParams = new URLSearchParams(useLocation().search);

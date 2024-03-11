@@ -5,8 +5,13 @@ import Header from "../../component/header";
 import Divider from "../../component/divider";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "../../component/authContext";
 
 export default function TransactionPage() {
+  const { state } = useAuth();
+  const { user, token } = state;
+  console.log("В трансакции.......................", user.id, token);
+
   const [data, setData] = useState({});
 
   const urlParams = new URLSearchParams(useLocation().search);

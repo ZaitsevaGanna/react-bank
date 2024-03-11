@@ -1,9 +1,9 @@
 import "./index.css";
 
-export default function AlarmBlock({ text }) {
+export default function AlarmBlock({ text, green }) {
   return (
-    <div className="alarm_block">
-      <div className="stop"></div>
+    <div className={`alarm_block ${green ? `green` : ``}`}>
+      <div className={`stop  ${green ? `withoutStop` : ``}`}></div>
       <div>{text}</div>
     </div>
   );

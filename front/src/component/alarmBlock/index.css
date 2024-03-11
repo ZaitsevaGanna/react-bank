@@ -8,7 +8,7 @@ border-radius: 10px;
   color:rgb(242, 136, 61) ;
   font-size: 14px;
   font-weight: 400;
- text-align: justify;
+align-self: center;
 }
 .stop {
  background-image: url(./Vector.png);
@@ -17,3 +17,14 @@ border-radius: 10px;
     display: inline-block;
     margin-right: 10px;
 }
+.green{
+   background-color:rgba(29, 235, 42, 0.1) ;
+   color:rgb(7, 138, 48) ;
+
+
+}
+ .withoutStop{
+   background-image:none;
+   background-size: 0;
+       width: 0;
+ }

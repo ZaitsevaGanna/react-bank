@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 export default function SettingPage() {
   const { state, dispatch } = useAuth();
   const { token, user } = state;
+  console.log("В settings...................", user.id, token);
 
   const urlParams = new URLSearchParams(useLocation().search);
   const userId = urlParams.get("id");
@@ -109,6 +110,9 @@ export default function SettingPage() {
         user: undefined,
       },
     });
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
     window.location.assign("/");
   };
   return (
@@ -120,7 +124,9 @@ export default function SettingPage() {
       <div className="alarmBlock">
         <h2 className="title_field">Change email</h2>
         {isFirstComponentVisible ? <AlarmBlock text="Wrong email" /> : null}
-        {isFirstComponentVisible2 ? <AlarmBlock text="Зроблено" /> : null}
+        {isFirstComponentVisible2 ? (
+          <AlarmBlock text="Зроблено!" green />
+        ) : null}
       </div>
       <Field
         name="Old Email"
@@ -145,7 +151,9 @@ export default function SettingPage() {
       <div className="alarmBlock">
         <h2 className="title_field">Change password</h2>
         {isFirstComponentVisible1 ? <AlarmBlock text="Wrong password" /> : null}
-        {isFirstComponentVisible3 ? <AlarmBlock text="Зроблено!" /> : null}
+        {isFirstComponentVisible3 ? (
+          <AlarmBlock text="Зроблено!" green />
+        ) : null}
       </div>
       <FieldPass
         name="Old password"

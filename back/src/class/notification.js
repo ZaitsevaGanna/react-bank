@@ -84,7 +84,7 @@ class Notification {
     )
   }
 
-  static fillFakeNotifications() {
+  //static fillFakeNotifications() {
     // Notification.createLogin(2)
     // Notification.createDebit(2, 20, 1)
     // Notification.createCredit(
@@ -105,7 +105,7 @@ class Notification {
     //   4,
     //   PaymentSystem.FRIEND,
     // )
-  }
+  //}
 }
 
 module.exports = {
