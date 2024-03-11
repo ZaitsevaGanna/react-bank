@@ -105,6 +105,17 @@ background-repeat: no-repeat;
 background-position: center;
 
 }
+
+.paymentImg1{
+  background-image: url("./Frame\ 18.png");  
+}
+.paymentImg2{
+  background-image: url("./Frame\ 17.png");  
+}
+.paymentImg4{
+  background-image: url("./Frame\ 18.png");  
+}
+
 .paymentName{
     display: flex;
     flex-direction: column;
@@ -118,6 +129,9 @@ background-position: center;
     font-size: 20px; 
        color: #26BF80;
        font-weight: 600;
+}
+.price_sending1{
+   color: #ef2323;
 }
 .doubleDiv{
     display: flex;

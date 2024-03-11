@@ -1,6 +1,8 @@
 .notifications{
       list-style-type: none;
     padding: 0;
+    overflow-y: auto;
+    height: 90%;
    
 }
 .notification{
@@ -37,7 +39,7 @@ background-position: center;
  .notif_type4{ 
    background-image: url("Frame\ 18.png");
  }
-  .notif_type0{ 
+  .notif_type5{ 
   background-image: url("Danger.png");
  }
 

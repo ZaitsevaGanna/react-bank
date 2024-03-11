@@ -1,9 +1,14 @@
 import "./index.css";
+import { Link } from "react-router-dom";
 
-export default function ButtonWhite({ href, text, red }) {
+export default function ButtonWhite({ href, text, red, onClick }) {
   return (
-    <a className={`buttonWhite ${red ? `buttonRed` : ``}`} href={href}>
+    <Link
+      className={`buttonWhite ${red ? `buttonRed` : ``}`}
+      to={href}
+      onClick={onClick}
+    >
       {text}
-    </a>
+    </Link>
   );
 }

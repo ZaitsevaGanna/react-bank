@@ -20,11 +20,8 @@ class User {
   }
 
   static getByEmail(email) {
-    return (
-      this.#list.find(
-        (user) =>
-          user.email === String(email).toLowerCase(),
-      ) || null
+    return this.#list.find(
+      (user) => user.email === email.toLowerCase(),
     )
   }
 
@@ -35,12 +32,20 @@ class User {
     )
   }
 
-  static getList() {
-    return this.#list
+  static getEmailById(id) {
+    const user = this.#list.find(
+      (user) => user.id === Number(id),
+    )
+    return user ? user.email : null
   }
 
-  static isExists(email) {
-    return this.getByEmail(email) !== null
+  static getByPass(pass) {
+    return this.#list.find(
+      (user) => user.password === pass.toLowerCase(),
+    )
+  }
+  static getList() {
+    return this.#list
   }
 
   static regenerateCode(user) {

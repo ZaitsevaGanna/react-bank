@@ -20,6 +20,9 @@
     line-height: 20px;
        font-weight: 600;
 }
+.sum1{
+   color:red
+}
 .info{
     display: flex;
     flex-direction: row;

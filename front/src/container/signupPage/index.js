@@ -7,7 +7,7 @@ import FieldPass from "../../component/fieldPass";
 import FieldLink from "../../component/fieldLink";
 import AlarmBlock from "../../component/alarmBlock";
 import Page from "../../page";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function SignupPage() {
   const [isFirstComponentVisible, setFirstComponentVisible] = useState(false);
@@ -29,6 +29,8 @@ export default function SignupPage() {
       console.log("SignupPage response: ", response);
 
       console.log("Отправлено:", { email, password });
+
+      //Получение ответа с сервера
 
       switch (response.status) {
         case 200:
@@ -73,6 +75,7 @@ export default function SignupPage() {
     setPassword(event.target.value);
   };
   console.log({ password, email });
+
   return (
     <Page>
       <div className="signupPage">

@@ -12,7 +12,10 @@ import { useAuth } from "../../component/authContext";
 import { useState } from "react";
 
 export default function SigninPage() {
-  const { dispatch } = useAuth();
+  const { state, dispatch } = useAuth();
+  const { user, token } = state;
+  console.log(".........................", user.id, token);
+
   const [isFirstComponentVisible, setFirstComponentVisible] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -36,17 +39,17 @@ export default function SigninPage() {
         if (response.status === 400 || response.status === 500) {
           setFirstComponentVisible(true);
         } else if (response.status === 200) {
-          //window.location.assign("/balance");
-
           console.log("В signin", data.token, data.user);
 
-          return dispatch({
+          dispatch({
             type: "LOGIN",
             payload: {
               token: data.token,
               user: data.user,
             },
           });
+          console.log("После установки dispatch", dispatch);
+          window.location.assign(`/balance?id=${data.user.id}`);
         }
       } catch (error) {
         console.error("Произошла ошибка:", error);

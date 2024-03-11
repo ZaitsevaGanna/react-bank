@@ -1,6 +1,9 @@
 class Transaction {
-  static TRANSACTION_TYPE_RECEIVE = 0
+  static TRANSACTION_TYPE_UNKNOWN = 0
   static TRANSACTION_TYPE_SENDING = 1
+  static TRANSACTION_TYPE_RECEIVE_STRIPE = 2
+  static TRANSACTION_TYPE_RECEIVE_COINBASE = 3
+  static TRANSACTION_TYPE_RECEIVE_FRIEND = 4
 
   static #list = []
   static #count = 1
@@ -14,7 +17,7 @@ class Transaction {
   }) {
     this.id = Transaction.#count++
     this.userId = userId
-    this.date = new Date()
+    this.date = new Date().toLocaleString('uk-UA')
     this.transactionType = transactionType
     this.agentId = agentId
     this.operationAmount = operationAmount
@@ -22,23 +25,36 @@ class Transaction {
   }
 
   static executeTransaction(
-    senderId,
-    receiverId,
+    userId,
+    agentId,
     transactionType,
-    amount,
-    balance,
+    operationAmount,
   ) {
-    const transaction = new Transaction(
-      senderId,
-      receiverId,
+    let balance = Transaction.getBalanceByUserId(userId)
+    switch (transactionType) {
+      case this.TRANSACTION_TYPE_RECEIVE_FRIEND:
+      case this.TRANSACTION_TYPE_RECEIVE_STRIPE:
+      case this.TRANSACTION_TYPE_RECEIVE_COINBASE:
+        balance += operationAmount
+        break
+      case this.TRANSACTION_TYPE_SENDING:
+        balance -= operationAmount
+        break
+      default:
+        throw new Error('Unknown transaction type.')
+    }
+    const transaction = new Transaction({
+      userId,
+      agentId,
       transactionType,
-      amount,
+      operationAmount,
       balance,
-    )
+    })
 
+    console.log('>>>transaction', transaction)
     this.#list.push(transaction)
 
-    console.log(this.#list)
+    console.log('>>>Список трансакций', this.#list)
     return transaction
   }
 
@@ -47,10 +63,63 @@ class Transaction {
   }
 
   static getListById(userId) {
-    return this.#list.filter(
-      (notif) => notif.userId === Number(userId),
+    return (
+      this.#list.filter(
+        (trans) => trans.userId === Number(userId),
+      ) || []
     )
+  }
+
+  static getTransById(transId) {
+    return this.#list.find(
+      (trans) => trans.id === Number(transId),
+    )
+  }
+
+  static getBalanceByUserId(userId) {
+    const ls = Transaction.getListById(userId)
+    if (ls.length > 0) {
+      return ls[ls.length - 1].balance
+    }
+    return 0
+  }
+
+  static getBalanceByUserlist(ls) {
+    if (ls && ls.length > 0) {
+      return ls[ls.length - 1].balance
+    }
+    return 0
+  }
+
+  static getTransactionDtos(userId, pageSize) {
+    const transactions = Transaction.getListById(userId)
+
+    const last7Trans =
+      transactions.length >= pageSize
+        ? transactions.slice(-pageSize)
+        : transactions
+
+    const balance =
+      Transaction.getBalanceByUserlist(last7Trans)
+
+    return { balance, last7Trans }
   }
 }
 
-module.exports = { Transaction }
+class TransactionDto {
+  constructor(
+    id,
+    agentEmail,
+    date,
+    transactionType,
+    operationAmount,
+  ) {
+    this.id = id
+    this.agentEmail = agentEmail
+    this.date = date.toLocaleString('uk-UA')
+    this.transactionType = transactionType
+    this.operationAmount = operationAmount
+  }
+}
+
+module.exports = { Transaction, TransactionDto }

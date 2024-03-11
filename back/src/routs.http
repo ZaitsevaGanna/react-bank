@@ -1,0 +1,62 @@
+GET http://localhost:4000/users
+###
+
+GET http://localhost:4000/balance?id=3
+###
+
+GET http://localhost:4000/notifications
+###
+
+// examples
+@host-address=http://localhost
+@port=5103
+
+GET {{host-address}}:{{port}}/games
+###
+
+@game-id=1
+GET {{host-address}}:{{port}}/games/{{game-id}}
+###
+
+@game-none-exists-id=14
+GET {{host-address}}:{{port}}/games/{{game-none-exists-id}}
+###
+
+POST {{host-address}}:{{port}}/games
+Content-Type: application/json
+
+{
+    "name": "Minecraft",
+    "genre": "Kids and Family",
+    "price": 19.99,
+    "releaseDate": "2011-11-18"
+}
+###
+
+// POST with validation errors
+POST {{host-address}}:{{port}}/games
+Content-Type: application/json
+
+{
+    "genre": "Kids and Family",
+    "price": -19.99,
+    "releaseDate": "2011-11-18"
+}
+###
+
+PUT {{host-address}}:{{port}}/games/{{game-id}}
+Content-Type: application/json
+
+{
+  "name": "Street Fighter II Turbo",
+  "genre": "Fighting",
+  "price": 9.99,
+  "releaseDate": "1991-02-01"
+}
+###
+
+DELETE  {{host-address}}:{{port}}/games/{{game-id}}
+###balance
+
+GET http://localhost:4000/transaction?transId=1
+###
